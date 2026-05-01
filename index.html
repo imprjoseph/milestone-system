@@ -117,9 +117,13 @@
     .r-exp{background:#fee2e2;color:#991b1b}
 
     /* MS ROW */
-    .ms-row{display:grid;grid-template-columns:28px 1fr 86px 80px 96px 90px 50px 50px 120px;gap:8px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--n200);font-size:13px}
+    .ms-row{display:grid;grid-template-columns:28px minmax(160px,1fr) 86px 82px 76px 56px 44px 40px 100px;gap:6px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--n200);font-size:13px}
     .ms-row:hover{background:var(--n100)}
     .ms-hdr{background:var(--n100);font-weight:600;font-size:10px;color:var(--n500);text-transform:uppercase;letter-spacing:.5px}
+    /* Fix name cell wrapping */
+    .ms-row > span:nth-child(2) .fw6 { word-break:keep-all; overflow-wrap:break-word; white-space:normal; }
+    /* Tighten action buttons */
+    .ms-row > span:last-child { display:flex; align-items:center; gap:2px; flex-wrap:nowrap; }
 
     /* BTN */
     .btn-ac{background:var(--accent);color:#fff;border:none;border-radius:var(--r);padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:6px}
@@ -716,7 +720,7 @@ async function loadDetail(pid){
       ${ms.length===0?`<div class="empty"><i class="bi bi-calendar-x"></i><p>尚無節點</p></div>`:
         ms.map((m,_mi)=>`<div class="ms-row ${m.status==='延遲'||m.status==='卡關'?'bg-danger bg-opacity-10':''}" data-mid="${m.milestoneId}" data-sort="${m.sortOrder||9999}" draggable="false">
           <span class="drag-handle" style="display:none;cursor:grab;color:var(--n300);font-size:16px;justify-content:center;align-items:center"><i class="bi bi-grip-vertical"></i></span>
-          <span style="display:flex;align-items:flex-start;gap:4px;min-width:0"><span class="sort-badge" style="display:none;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"></span><span style="min-width:0"><div class="fw6" style="line-height:1.4">${m.milestoneName}</div>${m.delayReason?`<div style="font-size:10px;color:var(--danger);margin-top:1px">⚠ ${m.delayReason}</div>`:''}</span></span>
+          <span style="display:flex;align-items:flex-start;gap:4px;min-width:0"><span class="sort-badge" style="display:none;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"></span><span style="min-width:0"><div class="fw6" style="line-height:1.4;word-break:keep-all;overflow-wrap:break-word">${m.milestoneName}</div>${m.delayReason?`<div style="font-size:10px;color:var(--danger);margin-top:1px;word-break:keep-all">⚠ ${m.delayReason}</div>`:''}</span></span>
           <span>
             ${m.category?`<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(232,97,10,.1);color:var(--accent);white-space:nowrap">${m.category}</span>`:'<span style="color:var(--n300);font-size:11px">-</span>'}
           </span>
